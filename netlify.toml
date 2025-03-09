@@ -1,5 +1,6 @@
 [build]
   publish = "static"
+  command = "chmod +x prebuild.sh && ./prebuild.sh"
 
 [[redirects]]
   from = "/*"
