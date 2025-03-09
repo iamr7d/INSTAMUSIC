@@ -2,6 +2,10 @@
   publish = "static"
   command = ""
 
+[build.environment]
+  NODE_VERSION = "18"
+  SKIP_PYTHON = "true"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

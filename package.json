@@ -1,0 +1,10 @@
+{
+  "name": "instamatch",
+  "version": "1.0.0",
+  "description": "AI-Powered Instagram Story Song Recommender",
+  "scripts": {
+    "build": "echo 'No build required'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
