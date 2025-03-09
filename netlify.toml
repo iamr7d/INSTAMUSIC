@@ -1,11 +1,6 @@
 [build]
   publish = "static"
-  command = "# no build command needed for static files"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+  command = ""
 
 [[redirects]]
   from = "/*"
