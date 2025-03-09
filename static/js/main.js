@@ -101,63 +101,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function analyzeImage() {
-        if (!selectedFile) {
-            alert('Please select an image first');
-            return;
-        }
-        
+        if (!selectedFile) return;
+
         // Show loading state
         loadingContainer.style.display = 'flex';
         analysisContainer.style.display = 'none';
         geminiVisionContainer.style.display = 'none';
         recommendationsContainer.style.display = 'none';
-        
-        // Determine the API endpoint based on environment
-        let apiUrl = '/analyze';
-        
-        // If we're on Netlify, use the serverless function
-        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            apiUrl = '/.netlify/functions/analyze';
-            
-            // For Netlify deployment, we'll use a simplified request
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ mode: 'mock' })
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Data received:', data);
-                // Hide loading state
-                loadingContainer.style.display = 'none';
-                
-                // Display results
-                displayResults(data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                loadingContainer.style.display = 'none';
-                alert('An error occurred while analyzing the image. Please try again.');
-            });
-            
-            return; // Exit early, we've handled the Netlify case
-        }
-        
-        // For local development with backend server
+
+        // Scroll to results section
+        loadingContainer.scrollIntoView({ behavior: 'smooth' });
+
         // Create form data
         const formData = new FormData();
         formData.append('image', selectedFile);
-        
-        // Send request to server
-        fetch(apiUrl, {
+
+        // Send request to backend
+        fetch('/analyze', {
             method: 'POST',
             body: formData
         })
@@ -168,16 +128,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            // Hide loading state
+            // Hide loader
             loadingContainer.style.display = 'none';
-            
-            // Display results
+
+            // Display results with the new format
             displayResults(data);
         })
         .catch(error => {
             console.error('Error:', error);
-            loadingContainer.style.display = 'none';
             alert('An error occurred while analyzing the image. Please try again.');
+            loadingContainer.style.display = 'none';
         });
     }
 
@@ -310,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create album art
             const albumArt = document.createElement('img');
             albumArt.className = 'album-art';
-            albumArt.src = track.album_art || 'static/img/default-album.jpg';
+            albumArt.src = track.album_art || 'static/img/default-album.svg';
             albumArt.alt = `${track.name} album art`;
             albumArtContainer.appendChild(albumArt);
             
