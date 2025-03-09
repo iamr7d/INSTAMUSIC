@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "AI-Powered Instagram Story Song Recommender",
   "scripts": {
+    "start": "serve -s .",
     "build": "echo 'No build required'"
   },
   "dependencies": {
     "@netlify/functions": "^2.0.0",
     "node-fetch": "^2.6.7",
     "form-data": "^4.0.0",
-    "parse-multipart-data": "^1.5.0"
+    "parse-multipart-data": "^1.5.0",
+    "serve": "^14.2.0"
   },
   "devDependencies": {}
 }

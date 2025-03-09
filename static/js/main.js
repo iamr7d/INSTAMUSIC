@@ -122,8 +122,41 @@ document.addEventListener('DOMContentLoaded', function() {
         // If we're on Netlify, use the serverless function
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
             apiUrl = '/.netlify/functions/analyze';
+            
+            // For Netlify deployment, we'll skip the actual image upload
+            // and just fetch the mock data directly
+            fetch(apiUrl, {
+                method: 'POST',
+                // We're not sending the actual image in this case
+                // Just sending a simple indicator that we're in "mock mode"
+                body: JSON.stringify({ mode: 'mock' }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Hide loading state
+                loadingContainer.style.display = 'none';
+                
+                // Display results
+                displayResults(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingContainer.style.display = 'none';
+                alert('An error occurred while analyzing the image. Please try again.');
+            });
+            
+            return; // Exit early, we've handled the Netlify case
         }
         
+        // For local development, continue with the normal flow
         // Send request to server
         fetch(apiUrl, {
             method: 'POST',
