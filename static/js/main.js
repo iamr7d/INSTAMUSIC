@@ -116,8 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData();
         formData.append('image', selectedFile);
 
-        // Send request to backend
-        fetch('/analyze', {
+        // Determine if we're in development or production
+        const isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const endpoint = isLocalDev ? '/analyze' : '/.netlify/functions/analyze';
+
+        // Send request to the appropriate endpoint
+        fetch(endpoint, {
             method: 'POST',
             body: formData
         })

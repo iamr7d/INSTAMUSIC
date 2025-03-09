@@ -13,6 +13,11 @@
   publish = "static"
 
 [[redirects]]
+  from = "/analyze"
+  to = "/.netlify/functions/analyze"
+  status = 200
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
