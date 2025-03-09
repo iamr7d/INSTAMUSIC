@@ -112,10 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         geminiVisionContainer.style.display = 'none';
         recommendationsContainer.style.display = 'none';
         
-        // Create form data
-        const formData = new FormData();
-        formData.append('image', selectedFile);
-        
         // Determine the API endpoint based on environment
         let apiUrl = '/analyze';
         
@@ -123,24 +119,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
             apiUrl = '/.netlify/functions/analyze';
             
-            // For Netlify deployment, we'll skip the actual image upload
-            // and just fetch the mock data directly
+            // For Netlify deployment, we'll use a simplified request
             fetch(apiUrl, {
                 method: 'POST',
-                // We're not sending the actual image in this case
-                // Just sending a simple indicator that we're in "mock mode"
-                body: JSON.stringify({ mode: 'mock' }),
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ mode: 'mock' })
             })
             .then(response => {
+                console.log('Response status:', response.status);
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Network response was not ok: ' + response.status);
                 }
                 return response.json();
             })
             .then(data => {
+                console.log('Data received:', data);
                 // Hide loading state
                 loadingContainer.style.display = 'none';
                 
@@ -156,7 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return; // Exit early, we've handled the Netlify case
         }
         
-        // For local development, continue with the normal flow
+        // For local development with backend server
+        // Create form data
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+        
         // Send request to server
         fetch(apiUrl, {
             method: 'POST',

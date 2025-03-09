@@ -86,10 +86,20 @@ exports.handler = async (event, context) => {
     if (event.httpMethod !== 'POST') {
       return {
         statusCode: 405,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        },
         body: JSON.stringify({ error: 'Method Not Allowed' }),
       };
     }
 
+    // Log the request for debugging
+    console.log('Request received:', event.httpMethod);
+    console.log('Headers:', JSON.stringify(event.headers));
+    console.log('Body type:', typeof event.body);
+    
     // For static deployment, return mock data
     // In a real deployment, you would forward the request to your backend API
     return {
@@ -145,6 +155,11 @@ exports.handler = async (event, context) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
       body: JSON.stringify({ error: 'Internal Server Error', message: error.message }),
     };
   }
