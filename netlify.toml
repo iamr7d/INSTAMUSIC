@@ -1,13 +1,5 @@
 [build]
   publish = "static"
-  command = ""
-
-[build.environment]
-  NODE_VERSION = "18"
-  SKIP_INSTALL_DEPS = "true"
-  NETLIFY_USE_YARN = "false"
-  NETLIFY_USE_NPM = "false"
-  NETLIFY_USE_PNPM = "false"
 
 [[redirects]]
   from = "/*"
