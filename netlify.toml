@@ -1,11 +1,19 @@
 [build]
+  command = "pip install -r requirements.txt"
   publish = "static"
-  command = "chmod +x prebuild.sh && ./prebuild.sh"
+  functions = "netlify/functions"
+
+[dev]
+  command = "python app.py"
+  port = 5000
+  publish = "static"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
