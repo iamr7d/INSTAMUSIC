@@ -8,7 +8,6 @@
   NETLIFY_USE_YARN = "false"
   NETLIFY_USE_NPM = "false"
   NETLIFY_USE_PNPM = "false"
-  PYTHON_VERSION = "off"
 
 [[redirects]]
   from = "/*"
